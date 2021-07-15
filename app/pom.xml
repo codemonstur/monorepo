@@ -1,0 +1,77 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>xelion</groupId>
+    <artifactId>app</artifactId>
+    <version>0</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+        <maven.compiler.release>16</maven.compiler.release>
+    </properties>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <compilerArgs>--enable-preview</compilerArgs>
+                    <release>16</release>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>shade</goal></goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*.*</artifact>
+                                    <excludes>
+                                        <exclude>module-info.class</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>app.Main</Main-Class>
+                                        <Implementation-Title>${project.artifactId}</Implementation-Title>
+                                        <Implementation-Version>${project.version}</Implementation-Version>
+                                        <Implementation-Vendor>${project.groupId}</Implementation-Vendor>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                            <minimizeJar>false</minimizeJar>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>xelion</groupId>
+            <artifactId>library</artifactId>
+            <version>0</version>
+        </dependency>
+
+    </dependencies>
+</project>
